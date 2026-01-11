@@ -13,9 +13,9 @@ import Home from "./pages/Home";
 const router = createBrowserRouter([
   {
     path: "/",
-    Component: Home,
+    element: <Home />,
     children: [
-      { index: true, Component: Inicio },
+      { index: true, element: <Inicio /> },
 
       // MÉDICOS
       {
