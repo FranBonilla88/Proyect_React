@@ -5,8 +5,8 @@ import Inicio from "./components/Inicio.jsx";
 import ListadoMedicos from "./components/ListadoMedicos";
 import AltaMedico from "./components/AltaMedico";
 
-import ListadoPacientes from "./components/ListadoPacientes";
-import AltaPaciente from "./components/AltaPaciente";
+// import ListadoPacientes from "./components/ListadoPacientes";
+// import AltaPaciente from "./components/AltaPaciente";
 
 import Home from "./pages/Home";
 
