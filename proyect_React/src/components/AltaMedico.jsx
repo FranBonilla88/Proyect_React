@@ -17,14 +17,20 @@ import api from "../api";
 function AltaMedico() {
     const navigate = useNavigate();
 
-    const [medico, setMedico] = useState({
-        nombre: "",
-        especialidad: "",
+    const [doctor, setDoctor] = useState({
+        name: "",
+        surname: "",
+        specialty: "",
+        email: "",
+        phone: ""
     });
 
     const [isCamposValidos, setIsCamposValidos] = useState({
-        nombre: true,
-        especialidad: true,
+        name: true,
+        surname: true,
+        specialty: true,
+        email: true,
+        phone: true
     });
 
     const [isUpdating, setIsUpdating] = useState(false);
@@ -33,9 +39,14 @@ function AltaMedico() {
     const [dialogSeverity, setDialogSeverity] = useState("success");
 
     useEffect(() => {
-        async function fetchCreateMedico() {
+        async function fetchCreateDoctor() {
             try {
-                const respuesta = await api.post("/doctors/", medico);
+                const doctorAEnviar = {
+                    ...doctor,
+                    phone: Number(doctor.phone)
+                };
+
+                const respuesta = await api.post("/doctors/", doctorAEnviar);
 
                 setDialogMessage(respuesta.mensaje);
                 setDialogSeverity("success");
@@ -49,11 +60,11 @@ function AltaMedico() {
             setIsUpdating(false);
         }
 
-        if (isUpdating) fetchCreateMedico();
+        if (isUpdating) fetchCreateDoctor();
     }, [isUpdating]);
 
     function handleChange(e) {
-        setMedico({ ...medico, [e.target.name]: e.target.value });
+        setDoctor({ ...doctor, [e.target.name]: e.target.value });
     }
 
     function handleClick() {
@@ -72,19 +83,43 @@ function AltaMedico() {
 
     function validarDatos() {
         let valido = true;
+
         let objetoValidacion = {
-            nombre: true,
-            especialidad: true,
+            name: true,
+            surname: true,
+            specialty: true,
+            email: true,
+            phone: true
         };
 
-        if (medico.nombre.length < 3) {
+        // NAME: solo letras, mínimo 3 caracteres
+        if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]{3,}$/.test(doctor.name.trim())) {
             valido = false;
-            objetoValidacion.nombre = false;
+            objetoValidacion.name = false;
         }
 
-        if (medico.especialidad.length < 3) {
+        // SURNAME: solo letras y espacios, mínimo 3 caracteres
+        if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]{3,}$/.test(doctor.surname.trim())) {
             valido = false;
-            objetoValidacion.especialidad = false;
+            objetoValidacion.surname = false;
+        }
+
+        // SPECIALTY: mínimo 3 caracteres, puede incluir letras y espacios
+        if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]{3,}$/.test(doctor.specialty.trim())) {
+            valido = false;
+            objetoValidacion.specialty = false;
+        }
+
+        // EMAIL: formato válido con dominio y extensión
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(doctor.email.trim())) {
+            valido = false;
+            objetoValidacion.email = false;
+        }
+
+        // Teléfono español: 9 dígitos, empieza por 6, 7, 8 o 9
+        if (!/^[6789]\d{8}$/.test(doctor.phone.trim())) {
+            valido = false;
+            objetoValidacion.phone = false;
         }
 
         setIsCamposValidos(objetoValidacion);
@@ -94,45 +129,91 @@ function AltaMedico() {
     return (
         <>
             <Grid container spacing={2} sx={{ justifyContent: "center", alignItems: "center" }}>
-                <Grid item size={{ xs: 12, sm: 9, md: 7 }}>
+                <Grid item xs={12} sm={9} md={7}>
                     <Paper elevation={6} sx={{ mt: 3, p: 3, maxWidth: 900, mx: "auto" }}>
                         <Typography variant="h4" align="center" sx={{ mb: 3 }}>
                             Alta de Médico
                         </Typography>
 
                         <Grid container spacing={2}>
-                            <Grid item size={{ xs: 10 }}>
+                            <Grid item xs={10}>
                                 <TextField
                                     required
                                     fullWidth
-                                    id="nombre"
-                                    label="Nombre"
-                                    name="nombre"
+                                    id="name"
+                                    label="Nombre: "
+                                    name="name"
                                     type="text"
-                                    value={medico.nombre}
+                                    value={doctor.name}
                                     onChange={handleChange}
-                                    error={!isCamposValidos.nombre}
-                                    helperText={!isCamposValidos.nombre && "El nombre debe tener al menos 3 caracteres."}
+                                    error={!isCamposValidos.name}
+                                    helperText={!isCamposValidos.name && "El nombre debe tener al menos 3 caracteres."}
                                 />
                             </Grid>
 
-                            <Grid item size={{ xs: 10 }}>
+                            <Grid item xs={10}>
                                 <TextField
                                     required
                                     fullWidth
-                                    id="especialidad"
+                                    id="surname"
+                                    label="Apellidos"
+                                    name="surname"
+                                    type="text"
+                                    value={doctor.surname}
+                                    onChange={handleChange}
+                                    error={!isCamposValidos.surname}
+                                    helperText={!isCamposValidos.surname && "El apellido debe tener al menos 3 caracteres."}
+                                />
+                            </Grid>
+
+                            <Grid item xs={10}>
+                                <TextField
+                                    required
+                                    fullWidth
+                                    id="specialty"
                                     label="Especialidad"
-                                    name="especialidad"
+                                    name="specialty"
                                     type="text"
-                                    value={medico.especialidad}
+                                    value={doctor.specialty}
                                     onChange={handleChange}
-                                    error={!isCamposValidos.especialidad}
-                                    helperText={!isCamposValidos.especialidad && "La especialidad debe tener al menos 3 caracteres."}
+                                    error={!isCamposValidos.specialty}
+                                    helperText={!isCamposValidos.specialty && "La especialidad debe tener al menos 3 caracteres."}
                                 />
                             </Grid>
 
-                            <Grid item size={{ xs: 10 }} sx={{ display: "flex", justifyContent: "flex-end" }}>
-                                <Button variant="contained" sx={{ mt: 3 }} loading={isUpdating} onClick={handleClick}>
+                            <Grid item xs={10}>
+                                <TextField
+                                    required
+                                    fullWidth
+                                    id="email"
+                                    label="Correo Electronico"
+                                    name="email"
+                                    type="text"
+                                    value={doctor.email}
+                                    onChange={handleChange}
+                                    error={!isCamposValidos.email}
+                                    helperText={!isCamposValidos.email && "Introduce un correo electronico válido"}
+                                />
+                            </Grid>
+
+                            <Grid item xs={10}>
+                                <TextField
+                                    required
+                                    fullWidth
+                                    id="phone"
+                                    label="Numero de Telefono"
+                                    name="phone"
+                                    type="text"
+                                    inputProps={{ maxLength: 9 }}
+                                    value={doctor.phone}
+                                    onChange={handleChange}
+                                    error={!isCamposValidos.phone}
+                                    helperText={!isCamposValidos.phone && "Debe tener 9 dígitos y empezar por 6, 7, 8 o 9."}
+                                />
+                            </Grid>
+
+                            <Grid item xs={10} sx={{ display: "flex", justifyContent: "flex-end" }}>
+                                <Button disabled={isUpdating} variant="contained" sx={{ mt: 3 }} onClick={handleClick}>
                                     Aceptar
                                 </Button>
                             </Grid>

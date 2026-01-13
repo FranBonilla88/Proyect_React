@@ -14,6 +14,7 @@ import api from "../api";
 function ListadoMedicos() {
     const [datos, setDatos] = useState([]);
     const [error, setError] = useState(null);
+    const [mensajeExito, setMensajeExito] = useState("");
 
     useEffect(() => {
         async function fetchMedicos() {
@@ -36,16 +37,29 @@ function ListadoMedicos() {
             await api.delete("/doctors/" + idmedico);
 
             const datos_nuevos = datos.filter(
-                (medico) => medico.idmedico !== idmedico
+                (medico) => medico.id !== idmedico
             );
 
             setDatos(datos_nuevos);
             setError(null);
+            setMensajeExito("Medico eliminado correctamente")
         } catch (error) {
             setError(error.mensaje || "No se pudo conectar al servidor");
             setDatos([]);
+            setMensajeExito(""); // ← limpiar mensaje si hay error
         }
     }
+
+    {
+        mensajeExito && (
+            <Typography align="center" sx={{ mb: 2 }}>
+                <Alert severity="success" variant="filled">
+                    ✔ {mensajeExito}
+                </Alert>
+            </Typography>
+        )
+    }
+
 
     if (error != null) {
         return (
@@ -74,22 +88,28 @@ function ListadoMedicos() {
                     <TableHead>
                         <TableRow>
                             <TableCell>Nombre</TableCell>
+                            <TableCell>Apellidos</TableCell>
                             <TableCell>Especialidad</TableCell>
+                            <TableCell>Email</TableCell>
+                            <TableCell>Phone</TableCell>
                             <TableCell>Acciones</TableCell>
                         </TableRow>
                     </TableHead>
 
                     <TableBody>
                         {datos.map((row) => (
-                            <TableRow key={row.idmedico}>
-                                <TableCell>{row.nombre}</TableCell>
-                                <TableCell>{row.especialidad}</TableCell>
+                            <TableRow key={row.id}>
+                                <TableCell>{row.name}</TableCell>
+                                <TableCell>{row.surname}</TableCell>
+                                <TableCell>{row.specialty}</TableCell>
+                                <TableCell>{row.email}</TableCell>
+                                <TableCell>{row.phone}</TableCell>
 
                                 <TableCell>
                                     <Button
                                         variant="contained"
                                         color="error"
-                                        onClick={() => handleDelete(row.idmedico)}
+                                        onClick={() => handleDelete(row.id)}
                                     >
                                         <DeleteIcon />
                                     </Button>
