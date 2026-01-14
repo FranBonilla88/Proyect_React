@@ -4,6 +4,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Inicio from "./components/Inicio.jsx";
 import ListadoMedicos from "./components/ListadoMedicos";
 import AltaMedico from "./components/AltaMedico";
+import BorrarMedico from "./components/BorrarMedico.jsx";
 
 // import ListadoPacientes from "./components/ListadoPacientes";
 // import AltaPaciente from "./components/AltaPaciente";
@@ -26,7 +27,10 @@ const router = createBrowserRouter([
         path: "/doctors/new",
         element: <AltaMedico />,
       },
-
+      {
+        path: "/doctors/delete/:id",
+        element: <BorrarMedico />,
+      }
       // PACIENTES
       // {
       //   path: "/patients",

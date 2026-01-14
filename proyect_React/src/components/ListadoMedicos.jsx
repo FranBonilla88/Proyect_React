@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -14,7 +15,7 @@ import api from "../api";
 function ListadoMedicos() {
     const [datos, setDatos] = useState([]);
     const [error, setError] = useState(null);
-    const [mensajeExito, setMensajeExito] = useState("");
+    const navigate = useNavigate();
 
     useEffect(() => {
         async function fetchMedicos() {
@@ -31,35 +32,6 @@ function ListadoMedicos() {
 
         fetchMedicos();
     }, []);
-
-    async function handleDelete(idmedico) {
-        try {
-            await api.delete("/doctors/" + idmedico);
-
-            const datos_nuevos = datos.filter(
-                (medico) => medico.id !== idmedico
-            );
-
-            setDatos(datos_nuevos);
-            setError(null);
-            setMensajeExito("Medico eliminado correctamente")
-        } catch (error) {
-            setError(error.mensaje || "No se pudo conectar al servidor");
-            setDatos([]);
-            setMensajeExito(""); // ← limpiar mensaje si hay error
-        }
-    }
-
-    {
-        mensajeExito && (
-            <Typography align="center" sx={{ mb: 2 }}>
-                <Alert severity="success" variant="filled">
-                    ✔ {mensajeExito}
-                </Alert>
-            </Typography>
-        )
-    }
-
 
     if (error != null) {
         return (
@@ -109,7 +81,7 @@ function ListadoMedicos() {
                                     <Button
                                         variant="contained"
                                         color="error"
-                                        onClick={() => handleDelete(row.id)}
+                                        onClick={() => navigate("/doctors/delete/" + row.id)}
                                     >
                                         <DeleteIcon />
                                     </Button>
