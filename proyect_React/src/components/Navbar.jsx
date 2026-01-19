@@ -41,171 +41,176 @@ function Navbar() {
     const linkStyle = { color: "black", textDecoration: "none" };
 
     return (
-        <AppBar position="static">
-            <Container maxWidth="xl">
-                <Toolbar disableGutters>
-                    {/* Menú para resolución xs  */}
-                    <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-                        <IconButton
-                            size="large"
-                            aria-label="menu pacientes db resolucion xs"
-                            aria-controls="menu-appbar"
-                            aria-haspopup="true"
-                            onClick={handleClickMenuXS}
-                            color="inherit"
-                        >
-                            <MenuIcon />
-                        </IconButton>
-                        <Menu
-                            id="menu-appbar-xs"
-                            anchorEl={anclaMenuXS}
-                            anchorOrigin={{
-                                vertical: "bottom",
-                                horizontal: "left",
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: "top",
-                                horizontal: "left",
-                            }}
-                            open={Boolean(anclaMenuXS)}
-                            onClose={handleCloseNavMenu}
-                            sx={{ display: { xs: "block", md: "none" } }}
-                        >
-                            <ListSubheader>Menú Medicos</ListSubheader>
-                            <MenuItem onClick={handleCloseNavMenu}>
-                                <Link to="/doctors/new" style={linkStyle}>
-                                    <Typography sx={{ textAlign: "center" }}>
-                                        Alta de Medico
-                                    </Typography>
-                                </Link>
-                            </MenuItem>
-                            <MenuItem onClick={handleCloseNavMenu}>
-                                <Link to="/doctors" style={linkStyle}>
-                                    <Typography sx={{ textAlign: "center" }}>
-                                        Listado de Medicos
-                                    </Typography>
-                                </Link>
-                            </MenuItem>
-                            <Divider />
-                            <ListSubheader>Menú Pacientes</ListSubheader>
-                            <MenuItem onClick={handleCloseNavMenu}>
-                                <Link to="/patients/new" style={linkStyle}>
-                                    <Typography sx={{ textAlign: "center" }}>
-                                        Alta de Paciente
-                                    </Typography>
-                                </Link>
-                            </MenuItem>
-                            <MenuItem onClick={handleCloseNavMenu}>
-                                <Link to="/patients" style={linkStyle}>
-                                    <Typography sx={{ textAlign: "center" }}>
-                                        Listado de Pacientes
-                                    </Typography>
-                                </Link>
-                            </MenuItem>
-                        </Menu>
-                    </Box>
-
-                    {/* Logo y nombre de la web */}
-                    <LocalHospitalTwoToneIcon />
-                    <Typography
-                        variant="h6"
-                        noWrap
-                        component="a"
-                        href="/"
-                        sx={{
-                            mx: 2,
-                            fontFamily: "monospace",
-                            fontWeight: 700,
-                            letterSpacing: ".3rem",
-                            color: "inherit",
-                            textDecoration: "none",
-                        }}
+        <AppBar position="static" sx={{ backgroundColor: "#1fc427" }}>
+            <Toolbar disableGutters>
+                {/* Menú para resolución xs  */}
+                <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+                    <IconButton
+                        size="large"
+                        aria-label="menu pacientes db resolucion xs"
+                        aria-controls="menu-appbar"
+                        aria-haspopup="true"
+                        onClick={handleClickMenuXS}
+                        color="inherit"
                     >
-                        GESTIÓN SANITARIA
-                    </Typography>
+                        <MenuIcon />
+                    </IconButton>
+                    <Menu
+                        id="menu-appbar-xs"
+                        anchorEl={anclaMenuXS}
+                        anchorOrigin={{
+                            vertical: "bottom",
+                            horizontal: "left",
+                        }}
+                        keepMounted
+                        transformOrigin={{
+                            vertical: "top",
+                            horizontal: "left",
+                        }}
+                        open={Boolean(anclaMenuXS)}
+                        onClose={handleCloseNavMenu}
+                        sx={{ display: { xs: "block", md: "none" } }}
+                    >
+                        <ListSubheader>Menú Medicos</ListSubheader>
+                        <MenuItem onClick={handleCloseNavMenu}>
+                            <Link to="/doctors/new" style={linkStyle}>
+                                <Typography sx={{ textAlign: "center" }}>
+                                    Alta de Medico
+                                </Typography>
+                            </Link>
+                        </MenuItem>
+                        <MenuItem onClick={handleCloseNavMenu}>
+                            <Link to="/doctors" style={linkStyle}>
+                                <Typography sx={{ textAlign: "center" }}>
+                                    Listado de Medicos
+                                </Typography>
+                            </Link>
+                        </MenuItem>
+                        <Divider />
+                        <ListSubheader>Menú Pacientes</ListSubheader>
+                        <MenuItem onClick={handleCloseNavMenu}>
+                            <Link to="/patients/new" style={linkStyle}>
+                                <Typography sx={{ textAlign: "center" }}>
+                                    Alta de Paciente
+                                </Typography>
+                            </Link>
+                        </MenuItem>
+                        <MenuItem onClick={handleCloseNavMenu}>
+                            <Link to="/patients" style={linkStyle}>
+                                <Typography sx={{ textAlign: "center" }}>
+                                    Listado de Pacientes
+                                </Typography>
+                            </Link>
+                        </MenuItem>
+                    </Menu>
+                </Box>
 
-                    {/* Menú para resolución md */}
-                    <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-                        {/* Menú para Medicos en md */}
-                        <Button
-                            onClick={handleClickMenuMedicos}
-                            sx={{ my: 2, color: "white", display: "block" }}
-                        >
-                            Medicos
-                        </Button>
-                        <Menu
-                            id="menu-medicos"
-                            anchorEl={anclaMenuMedicos}
-                            anchorOrigin={{
-                                vertical: "bottom",
-                                horizontal: "left",
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: "top",
-                                horizontal: "left",
-                            }}
-                            open={Boolean(anclaMenuMedicos)}
-                            onClose={handleCloseNavMenu}
-                            sx={{ display: { xs: "none", md: "flex" } }}
-                        >
-                            <MenuItem onClick={handleCloseNavMenu}>
-                                <Link to="/doctors/new" style={linkStyle}>
-                                    <Typography sx={{ textAlign: "center" }}>
-                                        Alta de Medico
-                                    </Typography>
-                                </Link>
-                            </MenuItem>
-                            <MenuItem onClick={handleCloseNavMenu}>
-                                <Link to="/doctors" style={linkStyle}>
-                                    <Typography sx={{ textAlign: "center" }}>
-                                        Listado de Medicos
-                                    </Typography>
-                                </Link>
-                            </MenuItem>
-                        </Menu>
-                        {/* Menú para pacientes en md */}
-                        <Button
-                            onClick={handleClickMenuPacientes}
-                            sx={{ my: 2, color: "white", display: "block" }}
-                        >
-                            Pacientes
-                        </Button>
-                        <Menu
-                            id="menu-pacientes"
-                            anchorEl={anclaMenuPacientes}
-                            anchorOrigin={{
-                                vertical: "bottom",
-                                horizontal: "left",
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: "top",
-                                horizontal: "left",
-                            }}
-                            open={Boolean(anclaMenuPacientes)}
-                            onClose={handleCloseNavMenu}
-                            sx={{ display: { xs: "none", md: "flex" } }}
-                        >
-                            <MenuItem onClick={handleCloseNavMenu}>
-                                <Link to="/patients/new" style={linkStyle}>
-                                    <Typography sx={{ textAlign: "center" }}>
-                                        Alta de Pacientes
-                                    </Typography>
-                                </Link>
-                            </MenuItem>
-                            <MenuItem onClick={handleCloseNavMenu}>
-                                <Link to="/patients" style={linkStyle}>
-                                    <Typography sx={{ textAlign: "center" }}>
-                                        Listado de Pacientes
-                                    </Typography>
-                                </Link>
-                            </MenuItem>
-                        </Menu>
-                    </Box>
-                </Toolbar>
-            </Container>
+                {/* Logo y nombre de la web */}
+                <LocalHospitalTwoToneIcon />
+                <Typography
+                    variant="h6"
+                    noWrap
+                    component="a"
+                    href="/"
+                    sx={{
+                        mx: 2,
+                        fontFamily: "monospace",
+                        fontWeight: 700,
+                        letterSpacing: ".3rem",
+                        color: "inherit",
+                        textDecoration: "none",
+                    }}
+                >
+                    GESTIÓN SANITARIA
+                </Typography>
+
+                {/* Menú para resolución md */}
+                <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+                    {/* Menú para Medicos en md */}
+                    <Button
+                        onClick={handleClickMenuMedicos}
+                        sx={{ my: 2, color: "white", display: "block" }}
+                    >
+                        Medicos
+                    </Button>
+                    <Menu
+                        id="menu-medicos"
+                        anchorEl={anclaMenuMedicos}
+                        anchorOrigin={{
+                            vertical: "bottom",
+                            horizontal: "left",
+                        }}
+                        keepMounted
+                        transformOrigin={{
+                            vertical: "top",
+                            horizontal: "left",
+                        }}
+                        open={Boolean(anclaMenuMedicos)}
+                        onClose={handleCloseNavMenu}
+                        sx={{ display: { xs: "none", md: "flex" } }}
+                    >
+                        <MenuItem onClick={handleCloseNavMenu}>
+                            <Link to="/doctors/new" style={linkStyle}>
+                                <Typography sx={{ textAlign: "center" }}>
+                                    Alta de Medico
+                                </Typography>
+                            </Link>
+                        </MenuItem>
+                        <MenuItem onClick={handleCloseNavMenu}>
+                            <Link to="/doctors" style={linkStyle}>
+                                <Typography sx={{ textAlign: "center" }}>
+                                    Listado de Medicos
+                                </Typography>
+                            </Link>
+                        </MenuItem>
+                        <MenuItem onClick={handleCloseNavMenu}>
+                            <Link to="/doctors/search" style={linkStyle}>
+                                <Typography sx={{ textAlign: "center" }}>
+                                    Buscar Medicos por Especialidad
+                                </Typography>
+                            </Link>
+                        </MenuItem>
+                    </Menu>
+                    {/* Menú para pacientes en md */}
+                    <Button
+                        onClick={handleClickMenuPacientes}
+                        sx={{ my: 2, color: "white", display: "block" }}
+                    >
+                        Pacientes
+                    </Button>
+                    <Menu
+                        id="menu-pacientes"
+                        anchorEl={anclaMenuPacientes}
+                        anchorOrigin={{
+                            vertical: "bottom",
+                            horizontal: "left",
+                        }}
+                        keepMounted
+                        transformOrigin={{
+                            vertical: "top",
+                            horizontal: "left",
+                        }}
+                        open={Boolean(anclaMenuPacientes)}
+                        onClose={handleCloseNavMenu}
+                        sx={{ display: { xs: "none", md: "flex" } }}
+                    >
+                        <MenuItem onClick={handleCloseNavMenu}>
+                            <Link to="/patients/new" style={linkStyle}>
+                                <Typography sx={{ textAlign: "center" }}>
+                                    Alta de Pacientes
+                                </Typography>
+                            </Link>
+                        </MenuItem>
+                        <MenuItem onClick={handleCloseNavMenu}>
+                            <Link to="/patients" style={linkStyle}>
+                                <Typography sx={{ textAlign: "center" }}>
+                                    Listado de Pacientes
+                                </Typography>
+                            </Link>
+                        </MenuItem>
+                    </Menu>
+                </Box>
+            </Toolbar>
         </AppBar>
     );
 }

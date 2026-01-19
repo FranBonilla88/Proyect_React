@@ -10,6 +10,7 @@ import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit"
 import api from "../api";
 
 function ListadoMedicos() {
@@ -59,25 +60,33 @@ function ListadoMedicos() {
                 <Table stickyHeader>
                     <TableHead>
                         <TableRow>
-                            <TableCell>Nombre</TableCell>
-                            <TableCell>Apellidos</TableCell>
-                            <TableCell>Especialidad</TableCell>
-                            <TableCell>Email</TableCell>
-                            <TableCell>Phone</TableCell>
-                            <TableCell>Acciones</TableCell>
+                            <TableCell align="center">Nombre</TableCell>
+                            <TableCell align="center">Apellidos</TableCell>
+                            <TableCell align="center">Especialidad</TableCell>
+                            <TableCell align="center">Email</TableCell>
+                            <TableCell align="center">Phone</TableCell>
+                            <TableCell align="center">Acciones</TableCell>
                         </TableRow>
                     </TableHead>
 
                     <TableBody>
                         {datos.map((row) => (
                             <TableRow key={row.id}>
-                                <TableCell>{row.name}</TableCell>
-                                <TableCell>{row.surname}</TableCell>
-                                <TableCell>{row.specialty}</TableCell>
-                                <TableCell>{row.email}</TableCell>
-                                <TableCell>{row.phone}</TableCell>
+                                <TableCell align="center">{row.name}</TableCell>
+                                <TableCell align="center">{row.surname}</TableCell>
+                                <TableCell align="center">{row.specialty}</TableCell>
+                                <TableCell align="center">{row.email}</TableCell>
+                                <TableCell align="center">{row.phone}</TableCell>
 
-                                <TableCell>
+                                <TableCell align="center">
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        sx={{ mr: 2 }}
+                                        onClick={() => navigate("/doctors/update/" + row.id)}
+                                    >
+                                        <EditIcon />
+                                    </Button>
                                     <Button
                                         variant="contained"
                                         color="error"
