@@ -7,7 +7,10 @@ import BorrarMedico from "./components/BorrarMedico.jsx";
 import EditarMedico from "./components/EditarMedico.jsx";
 import BusquedaMedicosEspecialidad from "./components/BusquedaMedicosEspecialidad.jsx";
 import BusquedaMedicosEdades from "./components/BusquedaMedicosEdades.jsx";
-
+import AltaPaciente from "./components/AltaPaciente.jsx";
+import ListadoPacientes from "./components/ListadoPacientes.jsx";
+import BorrarPaciente from "./components/BorrarPaciente.jsx";
+import EditarPaciente from "./components/EditarPaciente.jsx";
 
 // import ListadoPacientes from "./components/ListadoPacientes";
 // import AltaPaciente from "./components/AltaPaciente";
@@ -45,16 +48,24 @@ const router = createBrowserRouter([
       {
         path: "/doctors/search-age",
         element: <BusquedaMedicosEdades />
-      }
+      },
       // PACIENTES
-      // {
-      //   path: "/patients",
-      //   element: <ListadoPacientes />,
-      // },
-      // {
-      //   path: "/patients/new",
-      //   element: <AltaPaciente />,
-      // },
+      {
+        path: "/patients",
+        element: <ListadoPacientes />,
+      },
+      {
+        path: "/patients/new",
+        element: <AltaPaciente />,
+      },
+      {
+        path: "/patients/delete/:id",
+        element: <BorrarPaciente />,
+      },
+      {
+        path: "/patients/update/:id",
+        element: <EditarPaciente />
+      },
     ],
   },
 ]);

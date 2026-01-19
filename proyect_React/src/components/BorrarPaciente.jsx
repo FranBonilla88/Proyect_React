@@ -9,7 +9,7 @@ import Alert from "@mui/material/Alert";
 import Typography from "@mui/material/Typography";
 import api from "../api";
 
-function BorrarMedico() {
+function BorrarPaciente() {
     const { id } = useParams();
     const navigate = useNavigate();
 
@@ -23,29 +23,29 @@ function BorrarMedico() {
         setIsDeleting(true);
 
         try {
-            await api.delete("/doctors/" + id);
+            await api.delete("/patients/" + id);
 
-            setDialogMessage("Médico eliminado correctamente");
-            setDialogSeverity("success"); // para mensaje rojo, error
+            setDialogMessage("Paciente eliminado correctamente");
+            setDialogSeverity("success");
         } catch (error) {
-            setDialogMessage(error.mensaje || "No se pudo eliminar el médico");
+            setDialogMessage(error.mensaje || "No se pudo eliminar el paciente");
             setDialogSeverity("error");
         }
     }
 
     function handleClose() {
         setOpenDialog(false);
-        navigate("/doctors");
+        navigate("/patients");
     }
 
     return (
         <Dialog open={openDialog} onClose={handleClose} disableEscapeKeyDown>
-            <DialogTitle>Eliminar Médico</DialogTitle>
+            <DialogTitle>Eliminar Paciente</DialogTitle>
 
             <DialogContent dividers>
                 {dialogMessage === "" ? (
                     <Typography>
-                        ¿Seguro que deseas eliminar el médico con ID {id}?
+                        ¿Seguro que deseas eliminar el paciente con ID {id}?
                     </Typography>
                 ) : (
                     <Alert severity={dialogSeverity} variant="filled">
@@ -70,4 +70,4 @@ function BorrarMedico() {
     );
 }
 
-export default BorrarMedico;
+export default BorrarPaciente;

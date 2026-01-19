@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -9,11 +10,13 @@ import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit"
 import api from "../api";
 
-function ListadoPacientes() {
+function ListadoMedicos() {
     const [datos, setDatos] = useState([]);
     const [error, setError] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         async function fetchPacientes() {
@@ -26,21 +29,8 @@ function ListadoPacientes() {
                 setDatos([]);
             }
         }
-
         fetchPacientes();
     }, []);
-
-    async function handleDelete(idpaciente) {
-        try {
-            await api.delete("/patients/" + idpaciente);
-            const datos_nuevos = datos.filter(p => p.idpaciente !== idpaciente);
-            setDatos(datos_nuevos);
-            setError(null);
-        } catch (error) {
-            setError(error.mensaje || "No se pudo conectar al servidor");
-            setDatos([]);
-        }
-    }
 
     if (error != null) {
         return (
@@ -53,7 +43,7 @@ function ListadoPacientes() {
     if (!datos || datos.length === 0) {
         return (
             <Typography variant="h5" align="center" sx={{ mt: 3 }}>
-                No hay pacientes disponibles
+                No hay pacientes disponibles actualmente
             </Typography>
         );
     }
@@ -68,24 +58,39 @@ function ListadoPacientes() {
                 <Table stickyHeader>
                     <TableHead>
                         <TableRow>
-                            <TableCell>Nombre</TableCell>
-                            <TableCell>Fecha de nacimiento</TableCell>
-                            <TableCell>ID Médico</TableCell>
-                            <TableCell>Acciones</TableCell>
+                            <TableCell align="center">Nombre</TableCell>
+                            <TableCell align="center">Apellidos</TableCell>
+                            <TableCell align="center">Fecha de Nacimiento</TableCell>
+                            <TableCell align="center">Email</TableCell>
+                            <TableCell align="center">Numero de Telefono</TableCell>
+                            <TableCell align="center">Medico asignado</TableCell>
+                            <TableCell align="center">Acciones</TableCell>
                         </TableRow>
                     </TableHead>
 
                     <TableBody>
                         {datos.map((row) => (
-                            <TableRow key={row.idpaciente}>
-                                <TableCell>{row.nombre}</TableCell>
-                                <TableCell>{row.fecha_nacimiento}</TableCell>
-                                <TableCell>{row.idmedico ?? "Sin asignar"}</TableCell>
-                                <TableCell>
+                            <TableRow key={row.id}>
+                                <TableCell align="center">{row.name}</TableCell>
+                                <TableCell align="center">{row.surname}</TableCell>
+                                <TableCell align="center">{row.birth_date}</TableCell>
+                                <TableCell align="center">{row.email}</TableCell>
+                                <TableCell align="center">{row.phone}</TableCell>
+                                <TableCell align="center">{row.id_doctor}</TableCell>
+
+                                <TableCell align="center">
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        sx={{ mr: 2 }}
+                                        onClick={() => navigate("/patients/update/" + row.id)}
+                                    >
+                                        <EditIcon />
+                                    </Button>
                                     <Button
                                         variant="contained"
                                         color="error"
-                                        onClick={() => handleDelete(row.idpaciente)}
+                                        onClick={() => navigate("/patients/delete/" + row.id)}
                                     >
                                         <DeleteIcon />
                                     </Button>
@@ -99,4 +104,4 @@ function ListadoPacientes() {
     );
 }
 
-export default ListadoPacientes;
+export default ListadoMedicos;

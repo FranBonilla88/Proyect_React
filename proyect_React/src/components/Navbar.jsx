@@ -84,6 +84,20 @@ function Navbar() {
                                 </Typography>
                             </Link>
                         </MenuItem>
+                        <MenuItem onClick={handleCloseNavMenu}>
+                            <Link to="/doctors/search" style={linkStyle}>
+                                <Typography sx={{ textAlign: "center" }}>
+                                    Buscar Medicos por Especialidad
+                                </Typography>
+                            </Link>
+                        </MenuItem>
+                        <MenuItem onClick={handleCloseNavMenu}>
+                            <Link to="/doctors/search-age" style={linkStyle}>
+                                <Typography sx={{ textAlign: "center" }}>
+                                    Buscar Medicos por Edades
+                                </Typography>
+                            </Link>
+                        </MenuItem>
                         <Divider />
                         <ListSubheader>Menú Pacientes</ListSubheader>
                         <MenuItem onClick={handleCloseNavMenu}>
