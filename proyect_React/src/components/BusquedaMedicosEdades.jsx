@@ -11,35 +11,40 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
-import Chip from "@mui/material/Chip";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
 
 import BotonBorrar from "./BotonBorrar";
 import BotonEditar from "./BotonEditar";
 
-function BusquedaMedicos() {
-    const [especialidad, setEspecialidad] = useState("");
+function BusquedaMedicosEdades() {
+    const [ageMin, setAgeMin] = useState("");
+    const [ageMax, setAgeMax] = useState("");
     const [datos, setDatos] = useState([]);
     const [error, setError] = useState(null);
     const [buscado, setBuscado] = useState(false);
-
 
     const handleBuscar = async () => {
         setBuscado(true);
         setError(null);
         setDatos([]);
 
-        const valor = especialidad.trim(); // elimina espacios antes/después
+        const valorEdadMin = ageMin.trim(); // elimina espacios antes/después
 
-        if (!valor) {
-            setError("Debe indicar la especialidad para ver lo medicos disponibles actualmente de esa especialidad");
+        const valorEdadMax = ageMax.trim();
+
+        if (isNaN(valorEdadMin)) {
+            setError("La edad minima no es un numero");
+            return;
+        }
+
+
+        if (isNaN(valorEdadMax)) {
+            setError("La edad maxima no es un numero");
             return;
         }
 
         try {
             const response = await fetch(
-                `http://localhost:3001/api/doctors/search?specialty=${encodeURIComponent(valor)}`
+                `http://localhost:3001/api/doctors/search-age?minAge=${ageMin}&maxAge=${ageMax}`
             );
 
             const data = await response.json();
@@ -47,7 +52,7 @@ function BusquedaMedicos() {
             if (response.ok) {
                 setDatos(data.datos);
             } else {
-                setError(data.mensaje || "No se encontraron medicos con esa especialidad en concreto");
+                setError(data.mensaje || "No se encontraron medicos con esas edades en concreto");
             }
         } catch (e) {
             setError("No se pudo conectar con el servidor" + e.toString());
@@ -64,7 +69,11 @@ function BusquedaMedicos() {
 
                 <Grid container spacing={2} alignItems="center">
                     <Grid item xs={12} md={4}>
-                        <TextField label="Especialidad" type="text" fullWidth value={especialidad} onChange={(e) => setEspecialidad(e.target.value)} />
+                        <TextField label="Edad minima" type="text" fullWidth value={ageMin} onChange={(e) => setAgeMin(e.target.value)} />
+                    </Grid>
+
+                    <Grid item xs={12} md={4}>
+                        <TextField label="Edad maxima" type="text" fullWidth value={ageMax} onChange={(e) => setAgeMax(e.target.value)} />
                     </Grid>
 
                     <Grid item xs={12} md={4}>
@@ -90,6 +99,7 @@ function BusquedaMedicos() {
                             <TableRow>
                                 <TableCell align="center">Nombre</TableCell>
                                 <TableCell align="center">Apellidos</TableCell>
+                                <TableCell align="center">Edad</TableCell>
                                 <TableCell align="center">Especialidad</TableCell>
                                 <TableCell align="center">Email</TableCell>
                                 <TableCell align="center">Phone</TableCell>
@@ -102,6 +112,7 @@ function BusquedaMedicos() {
                                 <TableRow key={row.id}>
                                     <TableCell align="center">{row.name}</TableCell>
                                     <TableCell align="center">{row.surname}</TableCell>
+                                    <TableCell align="center">{row.age}</TableCell>
                                     <TableCell align="center">{row.specialty}</TableCell>
                                     <TableCell align="center">{row.email}</TableCell>
                                     <TableCell align="center">{row.phone}</TableCell>
@@ -119,4 +130,4 @@ function BusquedaMedicos() {
         </Container>
     );
 }
-export default BusquedaMedicos;
+export default BusquedaMedicosEdades;

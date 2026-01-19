@@ -18,6 +18,7 @@ function EditarMedico() {
     const [doctor, setDoctor] = useState({
         name: "",
         surname: "",
+        age: "",
         specialty: "",
         email: "",
         phone: "",
@@ -25,6 +26,7 @@ function EditarMedico() {
     const [isCamposValidos, setIsCamposValidos] = useState({
         name: true,
         surname: true,
+        age: true,
         specialty: true,
         email: true,
         phone: true,
@@ -97,6 +99,7 @@ function EditarMedico() {
         let objetoValidacion = {
             name: true,
             surname: true,
+            age: true,
             specialty: true,
             email: true,
             phone: true
@@ -112,6 +115,12 @@ function EditarMedico() {
         if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]{3,}$/.test(doctor.surname.trim())) {
             valido = false;
             objetoValidacion.surname = false;
+        }
+
+        // AGE: número entre 18 y 99
+        if (!/^(1[89]|[2-9]\d)$/.test(String(doctor.age).trim())) {
+            valido = false;
+            objetoValidacion.age = false;
         }
 
         // SPECIALTY: mínimo 3 caracteres, puede incluir letras y espacios
@@ -173,6 +182,21 @@ function EditarMedico() {
                                     onChange={handleChange}
                                     error={!isCamposValidos.surname}
                                     helperText={!isCamposValidos.surname && "El apellido debe tener al menos 3 caracteres."}
+                                />
+                            </Grid>
+
+                            <Grid item xs={10}>
+                                <TextField
+                                    required
+                                    fullWidth
+                                    id="age"
+                                    label="Edad"
+                                    name="age"
+                                    type="number"
+                                    value={doctor.age}
+                                    onChange={handleChange}
+                                    error={!isCamposValidos.age}
+                                    helperText={!isCamposValidos.age && "La edad debe ser entre 18 y 99 años."}
                                 />
                             </Grid>
 

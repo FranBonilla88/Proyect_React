@@ -12,6 +12,7 @@ CREATE TABLE `doctor` (
     `id` INT(4) NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(50) NOT NULL,
     `surname` VARCHAR(50) NOT NULL,
+    `edad` INT NOT NULL,
     `specialty` VARCHAR(50) NOT NULL,
     `email` VARCHAR(80) NOT NULL,
     `phone` VARCHAR(20) NOT NULL,
@@ -24,6 +25,7 @@ INSERT INTO
         `id`,
         `name`,
         `surname`,
+        `edad`,
         `specialty`,
         `email`,
         `phone`
@@ -33,6 +35,7 @@ VALUES
         1,
         'Francisco',
         'Talamino',
+        45,
         'Cardiology',
         'francisco.talamino@hospital.com',
         '600123123'
@@ -41,6 +44,7 @@ VALUES
         2,
         'Laura',
         'Sanchez',
+        38,
         'Pediatrics',
         'laura.sanchez@hospital.com',
         '600456456'
@@ -49,6 +53,7 @@ VALUES
         3,
         'Antonio',
         'Herrera',
+        50,
         'Dermatology',
         'antonio.herrera@hospital.com',
         '600789789'
@@ -57,6 +62,7 @@ VALUES
         4,
         'Elena',
         'Marquez',
+        42,
         'Neurology',
         'elena.marquez@hospital.com',
         '600987987'
@@ -65,6 +71,7 @@ VALUES
         5,
         'Javier',
         'Romero',
+        55,
         'General Medicine',
         'javier.romero@hospital.com',
         '600654654'

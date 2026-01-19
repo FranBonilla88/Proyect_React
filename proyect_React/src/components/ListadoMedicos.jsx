@@ -62,6 +62,7 @@ function ListadoMedicos() {
                         <TableRow>
                             <TableCell align="center">Nombre</TableCell>
                             <TableCell align="center">Apellidos</TableCell>
+                            <TableCell align="center">Edad</TableCell>
                             <TableCell align="center">Especialidad</TableCell>
                             <TableCell align="center">Email</TableCell>
                             <TableCell align="center">Phone</TableCell>
@@ -74,6 +75,7 @@ function ListadoMedicos() {
                             <TableRow key={row.id}>
                                 <TableCell align="center">{row.name}</TableCell>
                                 <TableCell align="center">{row.surname}</TableCell>
+                                <TableCell align="center">{row.age}</TableCell>
                                 <TableCell align="center">{row.specialty}</TableCell>
                                 <TableCell align="center">{row.email}</TableCell>
                                 <TableCell align="center">{row.phone}</TableCell>

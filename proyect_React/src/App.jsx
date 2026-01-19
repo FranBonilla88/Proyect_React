@@ -5,7 +5,8 @@ import ListadoMedicos from "./components/ListadoMedicos";
 import AltaMedico from "./components/AltaMedico";
 import BorrarMedico from "./components/BorrarMedico.jsx";
 import EditarMedico from "./components/EditarMedico.jsx";
-import BusquedaMedicos from "./components/BusquedaMedicos.jsx";
+import BusquedaMedicosEspecialidad from "./components/BusquedaMedicosEspecialidad.jsx";
+import BusquedaMedicosEdades from "./components/BusquedaMedicosEdades.jsx";
 
 
 // import ListadoPacientes from "./components/ListadoPacientes";
@@ -39,8 +40,12 @@ const router = createBrowserRouter([
       },
       {
         path: "/doctors/search",
-        element: <BusquedaMedicos />
+        element: <BusquedaMedicosEspecialidad />
       },
+      {
+        path: "/doctors/search-age",
+        element: <BusquedaMedicosEdades />
+      }
       // PACIENTES
       // {
       //   path: "/patients",

@@ -6,9 +6,7 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
-import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import LocalHospitalTwoToneIcon from "@mui/icons-material/LocalHospitalTwoTone";
 import { Link } from "react-router-dom";
@@ -167,6 +165,13 @@ function Navbar() {
                             <Link to="/doctors/search" style={linkStyle}>
                                 <Typography sx={{ textAlign: "center" }}>
                                     Buscar Medicos por Especialidad
+                                </Typography>
+                            </Link>
+                        </MenuItem>
+                        <MenuItem onClick={handleCloseNavMenu}>
+                            <Link to="/doctors/search-age" style={linkStyle}>
+                                <Typography sx={{ textAlign: "center" }}>
+                                    Buscar Medicos por Edades
                                 </Typography>
                             </Link>
                         </MenuItem>

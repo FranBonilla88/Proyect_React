@@ -3,6 +3,7 @@ import { Box, Typography, Button, IconButton } from "@mui/material";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function Inicio() {
     const imagenes = [
@@ -61,8 +62,12 @@ function Inicio() {
                     {imagenes[index].subtitulo}
                 </Typography>
 
-                <Button variant="contained" color="secondary">
-                    COMENZAR
+                <Button component={Link}
+                    to="/doctors/new"
+                    variant="contained"
+                    color="secondary"
+                >
+                    Comienza y registrate
                 </Button>
 
                 <IconButton
@@ -114,7 +119,7 @@ function Inicio() {
                         garantizando que cada profesional pueda acceder únicamente a la información
                         necesaria para su labor, manteniendo siempre la privacidad del paciente.
                     </Typography>
-                    <Button variant="contained" color="primary" onClick={() => navigate("/altaPaciente")}>
+                    <Button component={Link} to="/patients/new " variant="contained" color="primary" >
                         Registrar paciente
                     </Button>
                 </Box>
@@ -135,7 +140,7 @@ function Inicio() {
                         asignar pacientes, derivar casos y consultar la carga de trabajo de cada
                         médico en tiempo real.
                     </Typography>
-                    <Button variant="outlined" color="primary" onClick={() => navigate("/listadoMedicos")}>
+                    <Button variant="outlined" color="primary" onClick={() => navigate("/doctors")}>
                         Ver médicos
                     </Button>
                 </Box>
