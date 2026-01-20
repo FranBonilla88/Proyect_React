@@ -270,7 +270,7 @@ function AltaPaciente() {
                             </Grid>
 
                             <Grid item xs={10} sx={{ display: "flex", justifyContent: "flex-end" }}>
-                                <Button disabled={isUpdating} variant="contained" sx={{ mt: 3 }} onClick={handleClick}>
+                                <Button disabled={isUpdating} variant="contained" color="success" sx={{ mt: 3 }} onClick={handleClick}>
                                     Aceptar
                                 </Button>
                             </Grid>

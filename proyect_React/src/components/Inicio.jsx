@@ -65,7 +65,7 @@ function Inicio() {
                 <Button component={Link}
                     to="/doctors/new"
                     variant="contained"
-                    color="secondary"
+                    sx={{ backgroundColor: "transparent", color: "white" }}
                 >
                     Comienza y registrate
                 </Button>
@@ -189,7 +189,7 @@ function Inicio() {
                     py: 4,
                     px: 2,
                     textAlign: "center",
-                    backgroundColor: "#1976d2",
+                    backgroundColor: "#43A047",
                     color: "white",
                 }}
             >

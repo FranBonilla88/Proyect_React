@@ -12,6 +12,7 @@ import LocalHospitalTwoToneIcon from "@mui/icons-material/LocalHospitalTwoTone";
 import { Link } from "react-router-dom";
 import Divider from "@mui/material/Divider";
 import ListSubheader from "@mui/material/ListSubheader";
+import ThemeToggleButton from "../theme/ThemeToggleButton.jsx";
 
 function Navbar() {
     const [anclaMenuMedicos, setAnclaMenuMedicos] = React.useState(null);
@@ -35,8 +36,6 @@ function Navbar() {
         setAnclaMenuPacientes(null);
         setAnclaMenuXS(null);
     };
-
-    const linkStyle = { color: "black", textDecoration: "none" };
 
     return (
         <AppBar position="static" sx={{ backgroundColor: "#1fc427" }}>
@@ -71,29 +70,29 @@ function Navbar() {
                     >
                         <ListSubheader>Menú Medicos</ListSubheader>
                         <MenuItem onClick={handleCloseNavMenu}>
-                            <Link to="/doctors/new" style={linkStyle}>
-                                <Typography sx={{ textAlign: "center" }}>
+                            <Link to="/doctors/new" style={{ textDecoration: "none" }}>
+                                <Typography sx={{ color: "text.primary", textAlign: "center" }}>
                                     Alta de Medico
                                 </Typography>
                             </Link>
                         </MenuItem>
                         <MenuItem onClick={handleCloseNavMenu}>
-                            <Link to="/doctors" style={linkStyle}>
-                                <Typography sx={{ textAlign: "center" }}>
+                            <Link to="/doctors" style={{ textDecoration: "none" }}>
+                                <Typography sx={{ color: "text.primary", textAlign: "center" }}>
                                     Listado de Medicos
                                 </Typography>
                             </Link>
                         </MenuItem>
                         <MenuItem onClick={handleCloseNavMenu}>
-                            <Link to="/doctors/search" style={linkStyle}>
-                                <Typography sx={{ textAlign: "center" }}>
+                            <Link to="/doctors/search" style={{ textDecoration: "none" }}>
+                                <Typography sx={{ color: "text.primary", textAlign: "center" }}>
                                     Buscar Medicos por Especialidad
                                 </Typography>
                             </Link>
                         </MenuItem>
                         <MenuItem onClick={handleCloseNavMenu}>
-                            <Link to="/doctors/search-age" style={linkStyle}>
-                                <Typography sx={{ textAlign: "center" }}>
+                            <Link to="/doctors/search-age" style={{ textDecoration: "none" }}>
+                                <Typography sx={{ color: "text.primary", textAlign: "center" }}>
                                     Buscar Medicos por Edades
                                 </Typography>
                             </Link>
@@ -101,16 +100,23 @@ function Navbar() {
                         <Divider />
                         <ListSubheader>Menú Pacientes</ListSubheader>
                         <MenuItem onClick={handleCloseNavMenu}>
-                            <Link to="/patients/new" style={linkStyle}>
-                                <Typography sx={{ textAlign: "center" }}>
+                            <Link to="/patients/new" style={{ textDecoration: "none" }}>
+                                <Typography sx={{ color: "text.primary", textAlign: "center" }}>
                                     Alta de Paciente
                                 </Typography>
                             </Link>
                         </MenuItem>
                         <MenuItem onClick={handleCloseNavMenu}>
-                            <Link to="/patients" style={linkStyle}>
-                                <Typography sx={{ textAlign: "center" }}>
+                            <Link to="/patients" style={{ textDecoration: "none" }}>
+                                <Typography sx={{ color: "text.primary", textAlign: "center" }}>
                                     Listado de Pacientes
+                                </Typography>
+                            </Link>
+                        </MenuItem>
+                        <MenuItem onClick={handleCloseNavMenu}>
+                            <Link to="/patients" style={{ textDecoration: "none" }}>
+                                <Typography sx={{ color: "text.primary", textAlign: "center" }}>
+                                    Listado de Pacientes por Fechas
                                 </Typography>
                             </Link>
                         </MenuItem>
@@ -162,29 +168,29 @@ function Navbar() {
                         sx={{ display: { xs: "none", md: "flex" } }}
                     >
                         <MenuItem onClick={handleCloseNavMenu}>
-                            <Link to="/doctors/new" style={linkStyle}>
-                                <Typography sx={{ textAlign: "center" }}>
+                            <Link to="/doctors/new" style={{ textDecoration: "none" }}>
+                                <Typography sx={{ color: "text.primary", textAlign: "center" }}>
                                     Alta de Medico
                                 </Typography>
                             </Link>
                         </MenuItem>
                         <MenuItem onClick={handleCloseNavMenu}>
-                            <Link to="/doctors" style={linkStyle}>
-                                <Typography sx={{ textAlign: "center" }}>
+                            <Link to="/doctors" style={{ textDecoration: "none" }}>
+                                <Typography sx={{ color: "text.primary", textAlign: "center" }}>
                                     Listado de Medicos
                                 </Typography>
                             </Link>
                         </MenuItem>
                         <MenuItem onClick={handleCloseNavMenu}>
-                            <Link to="/doctors/search" style={linkStyle}>
-                                <Typography sx={{ textAlign: "center" }}>
+                            <Link to="/doctors/search" style={{ textDecoration: "none" }}>
+                                <Typography sx={{ color: "text.primary", textAlign: "center" }}>
                                     Buscar Medicos por Especialidad
                                 </Typography>
                             </Link>
                         </MenuItem>
                         <MenuItem onClick={handleCloseNavMenu}>
-                            <Link to="/doctors/search-age" style={linkStyle}>
-                                <Typography sx={{ textAlign: "center" }}>
+                            <Link to="/doctors/search-age" style={{ textDecoration: "none" }}>
+                                <Typography sx={{ color: "text.primary", textAlign: "center" }}>
                                     Buscar Medicos por Edades
                                 </Typography>
                             </Link>
@@ -214,21 +220,29 @@ function Navbar() {
                         sx={{ display: { xs: "none", md: "flex" } }}
                     >
                         <MenuItem onClick={handleCloseNavMenu}>
-                            <Link to="/patients/new" style={linkStyle}>
-                                <Typography sx={{ textAlign: "center" }}>
+                            <Link to="/patients/new" style={{ textDecoration: "none" }}>
+                                <Typography sx={{ color: "text.primary", textAlign: "center" }}>
                                     Alta de Pacientes
                                 </Typography>
                             </Link>
                         </MenuItem>
                         <MenuItem onClick={handleCloseNavMenu}>
-                            <Link to="/patients" style={linkStyle}>
-                                <Typography sx={{ textAlign: "center" }}>
+                            <Link to="/patients" style={{ textDecoration: "none" }}>
+                                <Typography sx={{ color: "text.primary", textAlign: "center" }}>
                                     Listado de Pacientes
+                                </Typography>
+                            </Link>
+                        </MenuItem>
+                        <MenuItem onClick={handleCloseNavMenu}>
+                            <Link to="/patients/search-date" style={{ textDecoration: "none" }}>
+                                <Typography sx={{ color: "text.primary", textAlign: "center" }}>
+                                    Listado de Pacientes por Fechas
                                 </Typography>
                             </Link>
                         </MenuItem>
                     </Menu>
                 </Box>
+                <ThemeToggleButton />
             </Toolbar>
         </AppBar>
     );

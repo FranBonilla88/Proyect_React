@@ -15,8 +15,9 @@ import Container from "@mui/material/Container";
 import BotonBorrar from "./BotonBorrar";
 import BotonEditar from "./BotonEditar";
 
-function BusquedaMedicosEspecialidad() {
-    const [especialidad, setEspecialidad] = useState("");
+function BusquedaPacientesFechas() {
+    const [dateMin, setDateMin] = useState("");
+    const [dateMax, setDateMax] = useState("");
     const [datos, setDatos] = useState([]);
     const [error, setError] = useState(null);
     const [buscado, setBuscado] = useState(false);
@@ -26,16 +27,31 @@ function BusquedaMedicosEspecialidad() {
         setError(null);
         setDatos([]);
 
-        const valor = especialidad.trim(); // elimina espacios antes/después
+        const valorFechaMin = dateMin.trim();
+        const valorFechaMax = dateMax.trim();
 
-        if (!valor) {
-            setError("Debe indicar la especialidad para ver lo medicos disponibles actualmente de esa especialidad");
+        // Validar fecha mínima
+        if (isNaN(new Date(valorFechaMin).getTime())) {
+            setError("La fecha mínima no es válida");
             return;
         }
 
+        // Validar fecha máxima
+        if (isNaN(new Date(valorFechaMax).getTime())) {
+            setError("La fecha máxima no es válida");
+            return;
+        }
+
+        // Validar que fechaMin <= fechaMax
+        if (new Date(valorFechaMin) > new Date(valorFechaMax)) {
+            setError("La fecha mínima no puede ser mayor que la fecha máxima");
+            return;
+        }
+
+
         try {
             const response = await fetch(
-                `http://localhost:3001/api/doctors/search?specialty=${encodeURIComponent(valor)}`
+                `http://localhost:3001/api/patients/search-date?startDate=${dateMin}&endDate=${dateMax}`
             );
 
             const data = await response.json();
@@ -43,7 +59,7 @@ function BusquedaMedicosEspecialidad() {
             if (response.ok) {
                 setDatos(data.datos);
             } else {
-                setError(data.mensaje || "No se encontraron medicos con esa especialidad en concreto");
+                setError(data.mensaje || "No se encontraron pacientes entre esas fechas en concreto");
             }
         } catch (e) {
             setError("No se pudo conectar con el servidor" + e.toString());
@@ -55,12 +71,16 @@ function BusquedaMedicosEspecialidad() {
             {/* FORMULARIO */}
             <Paper elevation={3} sx={{ p: 4, mb: 4, borderRadius: 2 }}>
                 <Typography variant="h4" gutterBottom color="primary" sx={{ mb: 3 }}>
-                    Búsqueda de medicos por Especialidad
+                    Búsqueda de pacientes por Fechas
                 </Typography>
 
                 <Grid container spacing={2} alignItems="center">
                     <Grid item xs={12} md={4}>
-                        <TextField label="Especialidad" type="text" fullWidth value={especialidad} onChange={(e) => setEspecialidad(e.target.value)} />
+                        <TextField label="Fecha minima" type="date" fullWidth value={dateMin} onChange={(e) => setDateMin(e.target.value)} />
+                    </Grid>
+
+                    <Grid item xs={12} md={4}>
+                        <TextField label="Fecha maxima" type="date" fullWidth value={dateMax} onChange={(e) => setDateMax(e.target.value)} />
                     </Grid>
 
                     <Grid item xs={12} md={4}>
@@ -86,10 +106,10 @@ function BusquedaMedicosEspecialidad() {
                             <TableRow>
                                 <TableCell align="center">Nombre</TableCell>
                                 <TableCell align="center">Apellidos</TableCell>
-                                <TableCell align="center">Edad</TableCell>
-                                <TableCell align="center">Especialidad</TableCell>
+                                <TableCell align="center">Fecha de Nacimiento</TableCell>
                                 <TableCell align="center">Email</TableCell>
-                                <TableCell align="center">Phone</TableCell>
+                                <TableCell align="center">Numero de Telefono</TableCell>
+                                <TableCell align="center">Medico asignado</TableCell>
                                 <TableCell align="center">Acciones</TableCell>
                             </TableRow>
                         </TableHead>
@@ -99,15 +119,15 @@ function BusquedaMedicosEspecialidad() {
                                 <TableRow key={row.id}>
                                     <TableCell align="center">{row.name}</TableCell>
                                     <TableCell align="center">{row.surname}</TableCell>
-                                    <TableCell align="center">{row.age}</TableCell>
-                                    <TableCell align="center">{row.specialty}</TableCell>
+                                    <TableCell align="center">{row.birth_date}</TableCell>
                                     <TableCell align="center">{row.email}</TableCell>
                                     <TableCell align="center">{row.phone}</TableCell>
-                                    <TableCell align="center">
-                                        <BotonEditar ruta="/doctors/update/" id={row.id} />
-                                        <BotonBorrar ruta="/doctors/delete/" id={row.id} />
-                                    </TableCell>
+                                    <TableCell align="center">{row.id_doctor}</TableCell>
 
+                                    <TableCell align="center">
+                                        <BotonEditar ruta="/patients/update/" id={row.id} />
+                                        <BotonBorrar ruta="/patients/delete/" id={row.id} />
+                                    </TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
@@ -117,4 +137,4 @@ function BusquedaMedicosEspecialidad() {
         </Container>
     );
 }
-export default BusquedaMedicosEspecialidad;
+export default BusquedaPacientesFechas;

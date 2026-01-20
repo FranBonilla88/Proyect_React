@@ -77,7 +77,7 @@ function BusquedaMedicosEdades() {
                     </Grid>
 
                     <Grid item xs={12} md={4}>
-                        <Button variant="contained" size="large" fullWidth onClick={handleBuscar} sx={{ height: "56px" }}>
+                        <Button variant="contained" color="success" size="large" fullWidth onClick={handleBuscar} sx={{ height: "56px" }}>
                             Buscar
                         </Button>
                     </Grid>

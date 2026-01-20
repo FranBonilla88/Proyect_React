@@ -16,6 +16,7 @@ import EditarPaciente from "./components/EditarPaciente.jsx";
 // import AltaPaciente from "./components/AltaPaciente";
 
 import Home from "./pages/Home";
+import BusquedaPacientesFechas from "./components/BusquedaPacientesFechas.jsx";
 
 const router = createBrowserRouter([
   {
@@ -66,6 +67,10 @@ const router = createBrowserRouter([
         path: "/patients/update/:id",
         element: <EditarPaciente />
       },
+      {
+        path: "/patients/search-date",
+        element: <BusquedaPacientesFechas />
+      }
     ],
   },
 ]);
