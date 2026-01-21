@@ -119,7 +119,7 @@ function Inicio() {
                         garantizando que cada profesional pueda acceder únicamente a la información
                         necesaria para su labor, manteniendo siempre la privacidad del paciente.
                     </Typography>
-                    <Button component={Link} to="/patients/new " variant="contained" color="primary" >
+                    <Button component={Link} to="/patients/new" variant="contained" color="primary" >
                         Registrar paciente
                     </Button>
                 </Box>
@@ -194,10 +194,10 @@ function Inicio() {
                 }}
             >
                 <Typography variant="h6" sx={{ mb: 1 }}>
-                    Gestión Sanitaria — Conectando salud y tecnología
+                    Gestión Sanitaria
                 </Typography>
                 <Typography variant="body2">
-                    © {new Date().getFullYear()} GestiónSanitaria. Todos los derechos reservados.
+                    © {new Date().getFullYear()} Todos los derechos reservados.
                 </Typography>
             </Box>
         </>

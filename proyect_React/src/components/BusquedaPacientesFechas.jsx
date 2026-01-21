@@ -48,7 +48,6 @@ function BusquedaPacientesFechas() {
             return;
         }
 
-
         try {
             const response = await fetch(
                 `http://localhost:3001/api/patients/search-date?startDate=${dateMin}&endDate=${dateMax}`
@@ -76,11 +75,25 @@ function BusquedaPacientesFechas() {
 
                 <Grid container spacing={2} alignItems="center">
                     <Grid item xs={12} md={4}>
-                        <TextField label="Fecha minima" type="date" fullWidth value={dateMin} onChange={(e) => setDateMin(e.target.value)} />
+                        <TextField
+                            label="Fecha mínima"
+                            type="date"
+                            fullWidth
+                            value={dateMin}
+                            onChange={(e) => setDateMin(e.target.value)}
+                            InputLabelProps={{ shrink: true }}
+                        />
                     </Grid>
 
                     <Grid item xs={12} md={4}>
-                        <TextField label="Fecha maxima" type="date" fullWidth value={dateMax} onChange={(e) => setDateMax(e.target.value)} />
+                        <TextField
+                            label="Fecha maxima"
+                            type="date"
+                            fullWidth
+                            value={dateMax}
+                            onChange={(e) => setDateMax(e.target.value)}
+                            InputLabelProps={{ shrink: true }}
+                        />
                     </Grid>
 
                     <Grid item xs={12} md={4}>
@@ -119,10 +132,15 @@ function BusquedaPacientesFechas() {
                                 <TableRow key={row.id}>
                                     <TableCell align="center">{row.name}</TableCell>
                                     <TableCell align="center">{row.surname}</TableCell>
-                                    <TableCell align="center">{row.birth_date}</TableCell>
+                                    <TableCell align="center">
+                                        {row.birth_date
+                                            ? new Date(row.birth_date).toLocaleDateString("es-ES")
+                                            : "-"
+                                        }
+                                    </TableCell>
                                     <TableCell align="center">{row.email}</TableCell>
                                     <TableCell align="center">{row.phone}</TableCell>
-                                    <TableCell align="center">{row.id_doctor}</TableCell>
+                                    <TableCell align="center">{row.doctor?.name || "-"}</TableCell>
 
                                     <TableCell align="center">
                                         <BotonEditar ruta="/patients/update/" id={row.id} />

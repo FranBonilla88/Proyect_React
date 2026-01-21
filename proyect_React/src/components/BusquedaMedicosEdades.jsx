@@ -64,7 +64,7 @@ function BusquedaMedicosEdades() {
             {/* FORMULARIO */}
             <Paper elevation={3} sx={{ p: 4, mb: 4, borderRadius: 2 }}>
                 <Typography variant="h4" gutterBottom color="primary" sx={{ mb: 3 }}>
-                    Búsqueda de medicos por Especialidad
+                    Búsqueda de medicos por Edad
                 </Typography>
 
                 <Grid container spacing={2} alignItems="center">
@@ -103,6 +103,8 @@ function BusquedaMedicosEdades() {
                                 <TableCell align="center">Especialidad</TableCell>
                                 <TableCell align="center">Email</TableCell>
                                 <TableCell align="center">Phone</TableCell>
+                                <TableCell align="center">Salario</TableCell>
+                                <TableCell align="center">Activo</TableCell>
                                 <TableCell align="center">Acciones</TableCell>
                             </TableRow>
                         </TableHead>
@@ -117,10 +119,15 @@ function BusquedaMedicosEdades() {
                                     <TableCell align="center">{row.email}</TableCell>
                                     <TableCell align="center">{row.phone}</TableCell>
                                     <TableCell align="center">
+                                        {row.salary != null ? row.salary + " €" : "-"}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        {row.active === true ? "Sí" : row.active === false ? "No" : "-"}
+                                    </TableCell>
+                                    <TableCell align="center">
                                         <BotonEditar ruta="/doctors/update/" id={row.id} />
                                         <BotonBorrar ruta="/doctors/delete/" id={row.id} />
                                     </TableCell>
-
                                 </TableRow>
                             ))}
                         </TableBody>

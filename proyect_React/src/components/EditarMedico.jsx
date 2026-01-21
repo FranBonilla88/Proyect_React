@@ -22,6 +22,8 @@ function EditarMedico() {
         specialty: "",
         email: "",
         phone: "",
+        salary: "",
+        active: false
     });
     const [isCamposValidos, setIsCamposValidos] = useState({
         name: true,
@@ -30,6 +32,8 @@ function EditarMedico() {
         specialty: true,
         email: true,
         phone: true,
+        salary: true,
+        active: true
     });
     const [isUpdating, setIsUpdating] = useState(false);
     const [openDialog, setOpenDialog] = useState(false);
@@ -40,7 +44,12 @@ function EditarMedico() {
     useEffect(() => {
         async function fetchUpdateDoctor() {
             try {
-                await api.put(`/doctors/${id}`, doctor);
+                await api.put(`/doctors/${id}`, {
+                    ...doctor,
+                    phone: Number(doctor.phone),
+                    salary: Number(doctor.salary),
+                    active: doctor.active === "true" || doctor.active === true
+                });
 
                 setDialogMessage("Actualización correcta del medico"); // Mensaje
                 setDialogSeverity("success"); // Color verde
@@ -62,7 +71,10 @@ function EditarMedico() {
             try {
                 const respuesta = await api.get(`/doctors/${id}`);
 
-                setDoctor(respuesta.datos);
+                setDoctor({
+                    ...respuesta.datos,
+                    active: String(respuesta.datos.active)
+                });
 
             } catch (error) {
                 setDialogMessage(error.mensaje || "Error al recuperar los datos del medico");
@@ -90,7 +102,7 @@ function EditarMedico() {
     function handleDialogClose() {
         setOpenDialog(false);
 
-        if (dialogSeverity === "success") navigate("/");
+        if (dialogSeverity === "success") navigate("/doctors");
     }
 
     function validarDatos() {
@@ -102,7 +114,9 @@ function EditarMedico() {
             age: true,
             specialty: true,
             email: true,
-            phone: true
+            phone: true,
+            salary: true,
+            active: true
         };
 
         // NAME: solo letras, mínimo 3 caracteres
@@ -136,9 +150,21 @@ function EditarMedico() {
         }
 
         // Teléfono español: 9 dígitos, empieza por 6, 7, 8 o 9
-        if (!/^[6789]\d{8}$/.test(String(doctor.phone).trim())) {
+        if (!/^[6789]\d{8}$/.test(doctor.phone.trim())) {
             valido = false;
             objetoValidacion.phone = false;
+        }
+
+        // SALARY: número positivo (puede tener decimales)
+        if (!/^\d+(\.\d+)?$/.test(String(doctor.salary).trim()) || Number(doctor.salary) < 0) {
+            valido = false;
+            objetoValidacion.salary = false;
+        }
+
+        // ACTIVE: debe ser true o false, no vacío
+        if (doctor.active !== "true" && doctor.active !== "false" && doctor.active !== true && doctor.active !== false) {
+            valido = false;
+            objetoValidacion.active = false;
         }
 
         setIsCamposValidos(objetoValidacion);
@@ -166,7 +192,7 @@ function EditarMedico() {
                                     value={doctor.name}
                                     onChange={handleChange}
                                     error={!isCamposValidos.name}
-                                    helperText={!isCamposValidos.name && "El nombre debe tener al menos 3 caracteres."}
+                                    helperText={!isCamposValidos.name && "El nombre solo puede contener letras y debe tener al menos 3 caracteres"}
                                 />
                             </Grid>
 
@@ -181,7 +207,7 @@ function EditarMedico() {
                                     value={doctor.surname}
                                     onChange={handleChange}
                                     error={!isCamposValidos.surname}
-                                    helperText={!isCamposValidos.surname && "El apellido debe tener al menos 3 caracteres."}
+                                    helperText={!isCamposValidos.surname && "Los apellidos solo pueden contener letras y deben tener al menos 3 caracteres"}
                                 />
                             </Grid>
 
@@ -211,7 +237,7 @@ function EditarMedico() {
                                     value={doctor.specialty}
                                     onChange={handleChange}
                                     error={!isCamposValidos.specialty}
-                                    helperText={!isCamposValidos.specialty && "La especialidad debe tener al menos 3 caracteres."}
+                                    helperText={!isCamposValidos.specialty && "La especialidad solo puede contener letras y debe tener al menos 3 caracteres"}
                                 />
                             </Grid>
 
@@ -246,8 +272,42 @@ function EditarMedico() {
                                 />
                             </Grid>
 
+                            <Grid item xs={10}>
+                                <TextField
+                                    required
+                                    fullWidth
+                                    id="salary"
+                                    label="Salario"
+                                    name="salary"
+                                    type="number"
+                                    value={doctor.salary}
+                                    onChange={handleChange}
+                                    error={!isCamposValidos.salary}
+                                    helperText={!isCamposValidos.salary && "El salario debe ser un número positivo"}
+                                />
+                            </Grid>
+
+                            <Grid item xs={10}>
+                                <TextField
+                                    select
+                                    required
+                                    fullWidth
+                                    id="active"
+                                    label="Activo"
+                                    name="active"
+                                    value={doctor.active}
+                                    onChange={handleChange}
+                                    error={!isCamposValidos.active}
+                                    helperText={!isCamposValidos.active && "Selecciona si el médico está activo o no"}
+                                    SelectProps={{ native: true }}
+                                >
+                                    <option value="true">Activo</option>
+                                    <option value="false">Inactivo</option>
+                                </TextField>
+                            </Grid>
+
                             <Grid item xs={10} sx={{ display: "flex", justifyContent: "flex-end" }}>
-                                <Button disabled={isUpdating} variant="contained" sx={{ mt: 3 }} onClick={handleClick}>
+                                <Button disabled={isUpdating} variant="contained" color="success" sx={{ mt: 3 }} onClick={handleClick}>
                                     Aceptar
                                 </Button>
                             </Grid>

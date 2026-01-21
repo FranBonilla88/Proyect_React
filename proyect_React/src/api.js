@@ -51,7 +51,7 @@ api.interceptors.response.use(
       console.error('Error en la solicitud:', error.message);
     }
 
-    return Promise.reject(respuestaError);
+    throw respuestaError;
   }
 );
 

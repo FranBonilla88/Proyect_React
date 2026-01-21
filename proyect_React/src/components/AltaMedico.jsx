@@ -23,7 +23,9 @@ function AltaMedico() {
         age: "",
         specialty: "",
         email: "",
-        phone: ""
+        phone: "",
+        salary: "",
+        active: false
     });
 
     const [isCamposValidos, setIsCamposValidos] = useState({
@@ -32,7 +34,9 @@ function AltaMedico() {
         age: true,
         specialty: true,
         email: true,
-        phone: true
+        phone: true,
+        salary: true,
+        active: true
     });
 
     const [isUpdating, setIsUpdating] = useState(false);
@@ -45,8 +49,10 @@ function AltaMedico() {
             try {
                 const doctorAEnviar = {
                     ...doctor,
-                    phone: Number(doctor.phone)
-                };
+                    phone: Number(doctor.phone),
+                    salary: Number(doctor.salary),
+                    active: doctor.active === "true" || doctor.active === true
+                };;
 
                 const respuesta = await api.post("/doctors/", doctorAEnviar);
 
@@ -92,7 +98,9 @@ function AltaMedico() {
             age: true,
             specialty: true,
             email: true,
-            phone: true
+            phone: true,
+            salary: true,
+            active: true
         };
 
         // NAME: solo letras, mínimo 3 caracteres
@@ -131,6 +139,18 @@ function AltaMedico() {
             objetoValidacion.phone = false;
         }
 
+        // SALARY: número positivo (puede tener decimales)
+        if (!/^\d+(\.\d+)?$/.test(String(doctor.salary).trim()) || Number(doctor.salary) < 0) {
+            valido = false;
+            objetoValidacion.salary = false;
+        }
+
+        // ACTIVE: debe ser true o false, no vacío
+        if (doctor.active !== "true" && doctor.active !== "false" && doctor.active !== true && doctor.active !== false) {
+            valido = false;
+            objetoValidacion.active = false;
+        }
+
         setIsCamposValidos(objetoValidacion);
         return valido;
     }
@@ -156,7 +176,7 @@ function AltaMedico() {
                                     value={doctor.name}
                                     onChange={handleChange}
                                     error={!isCamposValidos.name}
-                                    helperText={!isCamposValidos.name && "El nombre debe tener al menos 3 caracteres."}
+                                    helperText={!isCamposValidos.name && "El nombre solo puede contener letras y debe tener al menos 3 caracteres"}
                                 />
                             </Grid>
 
@@ -171,7 +191,7 @@ function AltaMedico() {
                                     value={doctor.surname}
                                     onChange={handleChange}
                                     error={!isCamposValidos.surname}
-                                    helperText={!isCamposValidos.surname && "El apellido debe tener al menos 3 caracteres."}
+                                    helperText={!isCamposValidos.surname && "Los apellidos solo pueden contener letras y deben tener al menos 3 caracteres"}
                                 />
                             </Grid>
 
@@ -201,7 +221,7 @@ function AltaMedico() {
                                     value={doctor.specialty}
                                     onChange={handleChange}
                                     error={!isCamposValidos.specialty}
-                                    helperText={!isCamposValidos.specialty && "La especialidad debe tener al menos 3 caracteres."}
+                                    helperText={!isCamposValidos.specialty && "La especialidad solo puede contener letras y debe tener al menos 3 caracteres"}
                                 />
                             </Grid>
 
@@ -234,6 +254,40 @@ function AltaMedico() {
                                     error={!isCamposValidos.phone}
                                     helperText={!isCamposValidos.phone && "Debe tener 9 dígitos y empezar por 6, 7, 8 o 9."}
                                 />
+                            </Grid>
+
+                            <Grid item xs={10}>
+                                <TextField
+                                    required
+                                    fullWidth
+                                    id="salary"
+                                    label="Salario"
+                                    name="salary"
+                                    type="number"
+                                    value={doctor.salary}
+                                    onChange={handleChange}
+                                    error={!isCamposValidos.salary}
+                                    helperText={!isCamposValidos.salary && "El salario debe ser un número positivo"}
+                                />
+                            </Grid>
+
+                            <Grid item xs={10}>
+                                <TextField
+                                    select
+                                    required
+                                    fullWidth
+                                    id="active"
+                                    label="Activo"
+                                    name="active"
+                                    value={doctor.active}
+                                    onChange={handleChange}
+                                    error={!isCamposValidos.active}
+                                    helperText={!isCamposValidos.active && "Selecciona si el médico está activo o no"}
+                                    SelectProps={{ native: true }}
+                                >
+                                    <option value={true}>Activo</option>
+                                    <option value={false}>Inactivo</option>
+                                </TextField>
                             </Grid>
 
                             <Grid item xs={10} sx={{ display: "flex", justifyContent: "flex-end" }}>

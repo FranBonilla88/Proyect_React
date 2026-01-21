@@ -58,17 +58,22 @@ function EditarPaciente() {
     useEffect(() => {
         async function fetchUpdatePatient() {
             try {
-                await api.put(`/patients/${id}`, patient);
+                const pacienteAEnviar = {
+                    ...patient,
+                    doctor_id: patient.doctor_id === "" ? null : Number(patient.doctor_id)
+                };
 
-                setDialogMessage("Actualización correcta del paciente"); // Mensaje
-                setDialogSeverity("success"); // Color verde
-                setOpenDialog(true); // Abrir el diálogo
+                await api.put(`/patients/${id}`, pacienteAEnviar);
+
+                setDialogMessage("Actualización correcta del paciente");
+                setDialogSeverity("success");
+                setOpenDialog(true);
             } catch (error) {
                 setDialogMessage(error.mensaje || "Error al actualizar el paciente");
-                setDialogSeverity("error"); // Color rojo
-                setOpenDialog(true); // Abrir el diálogo
+                setDialogSeverity("error");
+                setOpenDialog(true);
             }
-            // Pase lo que pase hemos terminado el proceso de actualización
+
             setIsUpdating(false);
         }
 
@@ -80,12 +85,23 @@ function EditarPaciente() {
             try {
                 const respuesta = await api.get(`/patients/${id}`);
 
-                setPatient(respuesta.datos);
+                const datos = respuesta.datos;
+
+                // Transformar la fecha ISO a YYYY-MM-DD
+                const fechaFormateada = datos.birth_date
+                    ? datos.birth_date.split("T")[0]
+                    : "";
+
+                setPatient({
+                    ...datos,
+                    birth_date: fechaFormateada,
+                    doctor_id: datos.doctor_id ?? ""
+                });
 
             } catch (error) {
                 setDialogMessage(error.mensaje || "Error al recuperar los datos del paciente");
-                setDialogSeverity("error"); // Color rojo
-                setOpenDialog(true); // Abrir el diálogo
+                setDialogSeverity("error");
+                setOpenDialog(true);
             }
         }
 
@@ -108,7 +124,7 @@ function EditarPaciente() {
     function handleDialogClose() {
         setOpenDialog(false);
 
-        if (dialogSeverity === "success") navigate("/");
+        if (dialogSeverity === "success") navigate("/patients");
     }
 
     function validarDatos() {
@@ -163,8 +179,8 @@ function EditarPaciente() {
             objetoValidacion.phone = false;
         }
 
-        // DOCTOR_ID: debe ser un número válido y obligatorio
-        if (!patient.doctor_id || isNaN(patient.doctor_id) || Number(patient.doctor_id) <= 0) {
+        // DOCTOR_ID: opcional, pero si viene debe ser válido
+        if (patient.doctor_id !== "" && (isNaN(patient.doctor_id) || Number(patient.doctor_id) <= 0)) {
             valido = false;
             objetoValidacion.doctor_id = false;
         }
@@ -258,19 +274,21 @@ function EditarPaciente() {
                                 />
                             </Grid>
 
-                            <Grid item xs={10}>
+                            <Grid item xs={12}>
                                 <TextField
                                     select
-                                    required
                                     fullWidth
                                     id="doctor_id"
-                                    label="Medico asignado"
+                                    label="Médico asignado"
                                     name="doctor_id"
                                     value={patient.doctor_id}
                                     onChange={handleChange}
                                     error={!isCamposValidos.doctor_id}
-                                    helperText={!isCamposValidos.doctor_id && "Debe seleccionar un médico válido."}
-                                    InputLabelProps={{ shrink: true, style: { whiteSpace: "nowrap" } }}                                >
+                                    helperText={!isCamposValidos.doctor_id ? "Seleccione un médico válido o deje vacío" : " "}
+                                    InputLabelProps={{ shrink: true }}
+                                >
+                                    <MenuItem value="">-- Sin médico asignado --</MenuItem>
+
                                     {listadoDoctores.map((doctor) => (
                                         <MenuItem key={doctor.id} value={doctor.id}>
                                             {doctor.name}

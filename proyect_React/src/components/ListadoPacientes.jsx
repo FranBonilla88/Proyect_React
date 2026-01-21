@@ -11,26 +11,31 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit"
+import Pagination from "@mui/material/Pagination";
 import api from "../api";
 
-function ListadoMedicos() {
+function ListadoPacientes() {
     const [datos, setDatos] = useState([]);
     const [error, setError] = useState(null);
+    const [page, setPage] = useState(1);
+    const [totalPaginas, setTotalPaginas] = useState(1);
     const navigate = useNavigate();
 
     useEffect(() => {
         async function fetchPacientes() {
             try {
-                const respuesta = await api.get("/patients/");
-                setDatos(respuesta.datos);
+                const respuesta = await api.get(`/patients?page=${page}&limit=10`);
+                setDatos(respuesta.datos.pacientes);
+                setTotalPaginas(respuesta.datos.totalPaginas);
                 setError(null);
+
             } catch (error) {
                 setError(error.mensaje || "No se pudo conectar al servidor");
                 setDatos([]);
             }
         }
         fetchPacientes();
-    }, []);
+    }, [page]);
 
     if (error != null) {
         return (
@@ -73,10 +78,15 @@ function ListadoMedicos() {
                             <TableRow key={row.id}>
                                 <TableCell align="center">{row.name}</TableCell>
                                 <TableCell align="center">{row.surname}</TableCell>
-                                <TableCell align="center">{row.birth_date}</TableCell>
+                                <TableCell align="center">
+                                    {row.birth_date
+                                        ? new Date(row.birth_date).toLocaleDateString("es-ES")
+                                        : "-"
+                                    }
+                                </TableCell>
                                 <TableCell align="center">{row.email}</TableCell>
                                 <TableCell align="center">{row.phone}</TableCell>
-                                <TableCell align="center">{row.id_doctor}</TableCell>
+                                <TableCell align="center">{row.doctor?.name || "-"}</TableCell>
 
                                 <TableCell align="center">
                                     <Button
@@ -100,8 +110,14 @@ function ListadoMedicos() {
                     </TableBody>
                 </Table>
             </TableContainer>
+            <Pagination
+                count={totalPaginas}
+                page={page}
+                onChange={(e, value) => setPage(value)}
+                sx={{ mt: 2, display: "flex", justifyContent: "center" }}
+            />
         </>
     );
 }
 
-export default ListadoMedicos;
+export default ListadoPacientes;

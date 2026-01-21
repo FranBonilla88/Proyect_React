@@ -63,7 +63,8 @@ function AltaPaciente() {
             try {
                 const pacienteAEnviar = {
                     ...patient,
-                    phone: Number(patient.phone)
+                    phone: Number(patient.phone),
+                    birth_date: patient.birth_date   // Aseguramos que va en formato YYYY-MM-DD 
                 };
 
                 const respuesta = await api.post("/patients/", pacienteAEnviar);
@@ -153,8 +154,8 @@ function AltaPaciente() {
             objetoValidacion.phone = false;
         }
 
-        // DOCTOR_ID: debe ser un número válido y obligatorio
-        if (!patient.doctor_id || isNaN(patient.doctor_id) || Number(patient.doctor_id) <= 0) {
+        // DOCTOR_ID: opcional, pero si viene debe ser válido
+        if (patient.doctor_id !== "" && (isNaN(patient.doctor_id) || Number(patient.doctor_id) <= 0)) {
             valido = false;
             objetoValidacion.doctor_id = false;
         }
@@ -208,12 +209,14 @@ function AltaPaciente() {
                                     required
                                     fullWidth
                                     id="birth_date"
+                                    label="Fecha de Nacimiento: "
                                     name="birth_date"
                                     type="date"
                                     value={patient.birth_date}
                                     onChange={handleChange}
                                     error={!isCamposValidos.birth_date}
                                     helperText={!isCamposValidos.birth_date && "El formato de fecha no es correcto"}
+                                    InputLabelProps={{ shrink: true }}
                                 />
                             </Grid>
 
@@ -251,7 +254,6 @@ function AltaPaciente() {
                             <Grid item xs={10}>
                                 <TextField
                                     select
-                                    required
                                     fullWidth
                                     id="doctor_id"
                                     label="Medico asignado"
@@ -259,8 +261,9 @@ function AltaPaciente() {
                                     value={patient.doctor_id}
                                     onChange={handleChange}
                                     error={!isCamposValidos.doctor_id}
-                                    helperText={!isCamposValidos.doctor_id && "Debe seleccionar un médico válido."}
-                                    InputLabelProps={{ shrink: true, style: { whiteSpace: "nowrap" } }}                                >
+                                    helperText={!isCamposValidos.doctor_id && "Valor no válido"}
+                                    InputLabelProps={{ shrink: true, style: { whiteSpace: "nowrap" } }}
+                                >   <MenuItem value="">-- Sin médico asignado --</MenuItem>
                                     {listadoDoctores.map((doctor) => (
                                         <MenuItem key={doctor.id} value={doctor.id}>
                                             {doctor.name}

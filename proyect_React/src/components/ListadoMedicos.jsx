@@ -66,6 +66,8 @@ function ListadoMedicos() {
                             <TableCell align="center">Especialidad</TableCell>
                             <TableCell align="center">Email</TableCell>
                             <TableCell align="center">Phone</TableCell>
+                            <TableCell align="center">Salario</TableCell>
+                            <TableCell align="center">Activo</TableCell>
                             <TableCell align="center">Acciones</TableCell>
                         </TableRow>
                     </TableHead>
@@ -79,6 +81,8 @@ function ListadoMedicos() {
                                 <TableCell align="center">{row.specialty}</TableCell>
                                 <TableCell align="center">{row.email}</TableCell>
                                 <TableCell align="center">{row.phone}</TableCell>
+                                <TableCell align="center">{row.salary}</TableCell>
+                                <TableCell align="center">{row.active ? "Sí" : "No"}</TableCell>
 
                                 <TableCell align="center">
                                     <Button
