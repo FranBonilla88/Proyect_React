@@ -64,7 +64,8 @@ function AltaPaciente() {
                 const pacienteAEnviar = {
                     ...patient,
                     phone: Number(patient.phone),
-                    birth_date: patient.birth_date   // Aseguramos que va en formato YYYY-MM-DD 
+                    birth_date: patient.birth_date,
+                    doctor_id: patient.doctor_id === "" ? null : Number(patient.doctor_id)
                 };
 
                 const respuesta = await api.post("/patients/", pacienteAEnviar);
